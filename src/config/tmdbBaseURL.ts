@@ -1,0 +1,1 @@
+export const BASE_TMDB_URL = 'https://api.themoviedb.org/3/';
