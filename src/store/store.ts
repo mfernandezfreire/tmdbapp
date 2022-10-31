@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { tmdbSlice } from './slices';
-import { tmdbAPI } from './api';
+import { tmdbAPI } from './apis';
 
 export const store = configureStore({
   reducer: {
-    tmdb: tmdbSlice.reducer,
+    guestUserSlice: tmdbSlice.reducer,
     [tmdbAPI.reducerPath]: tmdbAPI.reducer,
   },
   middleware: (getDefaultSettings) => getDefaultSettings()

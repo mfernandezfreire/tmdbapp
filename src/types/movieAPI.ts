@@ -20,6 +20,7 @@ export interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  user_rate_value?: number;
 }
 
 export interface AuthenticationApiResult {

@@ -1,33 +1,57 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+
+import { useGetMoviesListQuery } from '../../../store';
+
+import { useCounter } from '../hooks/useCounter';
+
 import MainContainer from '../../../components/MainContainer/MainContainer';
-import { useGetMoviesListQuery, RootState, setNewPage } from '../../../store';
+import { SearchBar, MovieList } from '../components';
 import { Movie } from '../../../types/movieAPI';
+
+import { getMoviesQuery } from '../../../utils/urlHelpers';
+
 
 const MovieListPage = () => {
 
-  const dispatch = useDispatch();
-  const { page } = useSelector((state: RootState) => state.tmdb)
-  const { data: movieList, isError, error, isLoading } = useGetMoviesListQuery(page);
+  const [searchValue, setsearchValue] = useState<string>('');
+  const { counter: page, addValueToCounter: setNewPage, resetCounter: resetPageCounter } = useCounter();
 
-  const handlePageChange = (value: number) => {
-    let newPageValue = page + value;
-    dispatch(setNewPage(Math.max(newPageValue, 1)));
+
+  const {
+    data: movieList,
+    isError: isErrorGetMovieList,
+    error: errorMovieList,
+    isLoading: isLoadingMovieList
+  } = useGetMoviesListQuery(getMoviesQuery(page, searchValue));
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setsearchValue(e.target.value);
+    resetPageCounter();
   }
 
-  const list = (movieList?.results || [])
-    .map((movie: Movie) => <li>
-      {movie.title}
-    </li>)
+  const handlePageChange = (value: number): void => {
+    const maxPageResult = movieList?.total_pages;
+    if (maxPageResult && value > 0 && page >= maxPageResult) return;
+    setNewPage(value)
+  }
+
 
   return (
     <MainContainer>
+      <SearchBar
+        searchValue={searchValue}
+        handleChangeValue={handleChange}
+        resetSearchValue={setsearchValue}
+      />
       {
-        isLoading
+        /** TODO: Create a generic Loader && Error Component */
+      }
+      {
+        isLoadingMovieList
           ? (<p>Is Loading</p>)
-          : isError
-            ? (<pre>{JSON.stringify(error)}</pre>)
-            : <ul>{list}</ul>
+          : isErrorGetMovieList
+            ? (<pre>{JSON.stringify(errorMovieList)}</pre>)
+            : <MovieList movieList={movieList?.results as Movie[]} voteEnabled={true} />
       }
       <button onClick={() => handlePageChange(-1)}>Previous</button>
       <button onClick={() => handlePageChange(1)}>Next</button>

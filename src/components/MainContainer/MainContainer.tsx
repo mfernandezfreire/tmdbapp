@@ -4,7 +4,15 @@ interface MainContainerProps {
 }
 
 const MainContainer = ({ children }: MainContainerProps) => (
-  <div className="container">
+  <div
+    className="container"
+    style={
+      {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+      }
+    }>
     {children}
   </div>
 );

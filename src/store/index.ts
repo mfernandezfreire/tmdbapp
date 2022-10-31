@@ -1,3 +1,3 @@
 export * from './store';
-export * from './api';
+export * from './apis';
 export * from './slices';

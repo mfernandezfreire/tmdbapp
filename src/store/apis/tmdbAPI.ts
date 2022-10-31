@@ -6,7 +6,7 @@ const baseUrl = 'https://api.themoviedb.org/3/';
 
 // Define a service using a base URL and expected endpoints
 export const tmdbAPI = createApi({
-  reducerPath: 'pokemonApi',
+  reducerPath: 'tmdbAPI',
   baseQuery: fetchBaseQuery(
     {
       baseUrl,
@@ -16,14 +16,8 @@ export const tmdbAPI = createApi({
     },
   ),
   endpoints: (builder) => ({
-    getMoviesList: builder.query<MovieSearchApiResult, number>({
-      query: (pageNumber: number) => `movie/popular/?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=es-ES&page=${pageNumber}`,
-    }),
-    getMovie: builder.query<MovieSearchApiResult, string>({
-      query: (movieToSearch) => `search/movie/?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=es-ES&query=${movieToSearch}&page=1&include-adult=false`,
-    }),
-    getGuestAuthentication: builder.query<AuthenticationApiResult, string>({
-      query: () => `/authentication/guest_session/new/?api_key=${import.meta.env.VITE_TMDB_API_KEY}`,
+    getMoviesList: builder.query<MovieSearchApiResult, string>({
+      query: (query: string) => query,
     }),
   }),
 });
@@ -32,6 +26,4 @@ export const tmdbAPI = createApi({
 // auto-generated based on the defined endpoints
 export const {
   useGetMoviesListQuery,
-  useGetMovieQuery,
-  useGetGuestAuthenticationQuery,
 } = tmdbAPI;
