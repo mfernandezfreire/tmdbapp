@@ -16,8 +16,8 @@ export const tmdbAPI = createApi({
     },
   ),
   endpoints: (builder) => ({
-    getMoviesList: builder.query<MovieSearchApiResult, string>({
-      query: () => `movie/popular/?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=es-ES&page=1`,
+    getMoviesList: builder.query<MovieSearchApiResult, number>({
+      query: (pageNumber: number) => `movie/popular/?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=es-ES&page=${pageNumber}`,
     }),
     getMovie: builder.query<MovieSearchApiResult, string>({
       query: (movieToSearch) => `search/movie/?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=es-ES&query=${movieToSearch}&page=1&include-adult=false`,

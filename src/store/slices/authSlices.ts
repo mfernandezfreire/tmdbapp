@@ -1,24 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface AunthenticationStatus {
+interface tmdbSlice {
   status: string,
-  id: string
+  id: string,
+  page: number,
 }
 
-const initialState: AunthenticationStatus = {
+const initialState: tmdbSlice = {
   status: '',
   id: 'testID',
+  page: 1
 };
 
-export const authenticateSlice = createSlice({
+export const tmdbSlice = createSlice({
   name: 'template',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.id += 1;
+    setNewPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment } = authenticateSlice.actions;
+export const { setNewPage } = tmdbSlice.actions;

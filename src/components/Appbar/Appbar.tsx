@@ -19,7 +19,9 @@ const Appbar = ({ routes = [] }: AppbarProps) => (
       <ul className="nav navbar-nav">
         {
           routes.map(({ to, name }: Route) => (
-            <li>
+            <li
+              key={name}
+            >
               <NavLink
                 key={name}
                 to={to}
