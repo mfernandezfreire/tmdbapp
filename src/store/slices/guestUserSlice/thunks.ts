@@ -2,14 +2,19 @@ import { setAuthentication, setMoviesRated, TmdbSlice, tmdbSlice } from './guest
 import { store, RootState } from '../../store';
 
 import axios from 'axios';
-import { Action, ActionCreator, AnyAction, AsyncThunkAction, ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
-import { AgnosticRouteMatch } from '@remix-run/router';
-import { MovieSearchApiResult, AuthenticationApiResult, RateApiResult, Movie } from '../../../types/movieAPI';
+
+import { AnyAction, ThunkAction } from '@reduxjs/toolkit';
+
+import { AuthenticationApiResult, RateApiResult, Movie } from '../../../types/movieAPI';
+
 import { getAuthenticationQuery, getRateQuery } from '../../../utils/urlHelpers';
+
 import { isAuthenticated } from '../../../utils/authenticateHelper';
 
+import { BASE_TMDB_URL } from '../../../config';
+
 export const tmdbGuestAuthentication = axios.create({
-  baseURL: 'https://api.themoviedb.org/3'
+  baseURL: BASE_TMDB_URL
 });
 
 export const rateMovie = (

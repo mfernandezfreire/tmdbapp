@@ -1,15 +1,15 @@
 // Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AuthenticationApiResult, MovieSearchApiResult } from '../../types/movieAPI';
+import { MovieSearchApiResult } from '../../types/movieAPI';
 
-const baseUrl = 'https://api.themoviedb.org/3/';
+import { BASE_TMDB_URL } from '../../config';
 
 // Define a service using a base URL and expected endpoints
 export const tmdbAPI = createApi({
   reducerPath: 'tmdbAPI',
   baseQuery: fetchBaseQuery(
     {
-      baseUrl,
+      baseUrl: BASE_TMDB_URL,
       headers: {
         'Content-type': 'application/json;charset=utf-8',
       },
